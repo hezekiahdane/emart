@@ -49,8 +49,8 @@
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
       <div class="container">
         <div class="header_logo">
           <a href="index.php"><span>e</span>mart.</a>
@@ -110,7 +110,7 @@
           </ul>
         </div>
       </div>
-    </nav>
+  </nav>
 
 
   <!-- Product -->

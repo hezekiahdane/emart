@@ -22,19 +22,27 @@
                 echo "<script language ='javascript'> alert('Category updated!'); window.location.href='categories.php' </script>";
             }
         }
+
+        $category = $_POST['edit-category'];
+        $sql="SELECT * FROM category WHERE Name = '$category'";
+        $result = mysqli_query($connect, $sql);
+        while($row = mysqli_fetch_assoc($result)){
+
+
     ?>
 
 
     <!-- Edit Category -->
         <div class="col-2 mt-2">
             <label class="form-label">Edit Category</label>
-            <input type="text" class="form-control" id="name" name="edit-category">
+            <input type="text" class="form-control" id="name" name="edit-category" value="<?php echo $category ?>">
         </div>
-
+        
         <!-- Confirm Button -->
         <div class="mt-2">
             <button type="submit" name="btnAdd">Confirm</button>
         </div>
 
+        <?php } ?>
     </form>
 </div>

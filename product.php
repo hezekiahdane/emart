@@ -140,7 +140,7 @@
             <h1 class="py-3"><?php echo $name ?></h1>
             <h2 class="py-3">$<?php echo $price ?></h2>
           <div>
-            <input type="number" value="1" />
+            <input type="number" value="1" name="quantity" />
             <button class="buy-btn">Add to Cart</button><br>
           </div>
 

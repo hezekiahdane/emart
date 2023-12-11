@@ -89,7 +89,7 @@
       <div class="py-5">
           <div class="row">
             <div class="col text-start"><h2 class="font-weight-bold">Manage Products</h2></div>
-            <div class="col text-end"><i onclick="window.location.href='addProduct.php'" class="fa-solid fa-circle-plus"></i></div>
+            <div class="col text-end"><i onclick="window.location.href='add_product.php'" class="fa-solid fa-circle-plus"></i></div>
         </div>
       </div>
 
@@ -177,7 +177,7 @@
             </td>
 
             <td>
-              <a href="#?>" class="edit-btn">Edit</a>
+              <a href="edit_product.php?product_id=<?php echo $id ?>" class="edit-btn">Edit</a>
             </td>
 
             <td>
