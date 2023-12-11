@@ -1,0 +1,405 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@300&display=swap');
+
+/* General style */
+
+.nav-buttons{
+    margin-left: 50%;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+h1{
+    font-size: 2.5rem;
+    font-weight: 650;
+}
+
+h2{
+    font-size: 1.8rem;
+    font-weight: 650;
+}
+
+h3{
+    font-size: 1.5rem;
+    font-weight: 750;
+}
+
+h4{
+    font-size: 1.2rem;
+    font-weight: 550;
+}
+
+h5{
+    font-size: 1rem;
+    font-weight: 450;
+}
+
+h6{
+    color: #d8d8d8;
+}
+
+button{
+    font-weight: 900;
+    font-size: 0.8rem;
+    outline: none;
+    border: none;
+    background-color: #1e1e1e;
+    color: white;
+    padding: 13px 30px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.5 ease;
+    display: inline-flex;
+}
+
+button:hover{
+    background-color: burlywood;
+}
+    /* Header Logo */
+    .header_logo{
+        text-align: center;
+    }
+
+    .header_logo a{
+        display: inline-block;
+        color: #000;
+        font-size: 27px;
+        font-weight: 800;
+        text-decoration: none;
+        letter-spacing: 3px;
+    }
+
+    .header_logo a span{
+        color: burlywood;
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    .header_logo a:hover{
+        color: burlywood;
+    }
+
+/* End of Header Logo */
+
+
+
+/* End of General style */
+
+
+/* Navbar */
+.navbar{
+    font-size: 16px;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0px 5px 10px rgb(91, 91, 91, 0.1);
+    display: flex;
+}
+
+.navbar-light .navbar-nav .nav-link{
+    padding: 0 20px;
+    color: #2e2e2e;
+    transition: 0.4s ease;
+    font-weight: 600;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar i:hover,
+.navbar-light .navbar-nav .nav-link:active
+.navbar i:hover{
+    color: burlywood;
+}
+
+.navbar .container .navbar-nav .nav-item .nav-link:active{
+    color: burlywood;
+}
+
+
+
+.navbar i {
+    font-size: 1.2rem;
+    padding: 0 20px;
+    transition: 0.4s ease;
+    cursor: pointer;
+    color: #7c7c7c;
+}
+
+
+.navbar .navbar-nav li:nth-child(7){
+    white-space: nowrap;
+    display: inline-flex;
+}
+/* End of Navbar */
+
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #fff;
+    color: black;
+    font-size: 16px;
+    padding: 16px;
+    border: none;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ffff;
+    min-width: 296.48px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  .dropdown:hover .dropbtn {background-color: #ddd;}
+
+  /* end of dropdown button */
+  @media only screen and (max-width:990px){
+
+    .nav-buttons{
+        margin: 10px;
+    }
+
+    .nav-buttons ul{
+        margin: 1rem;
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .nav-buttons ul .fas{
+        margin: 20px 5px 10px 20px;
+    }
+    
+  }
+
+
+
+
+
+/* Footer */
+.footer .footer_about{
+	margin-bottom: 30px;
+}
+
+.footer .footer_about p{
+	margin-bottom: 20px;
+	padding-right: 80px;
+}
+
+.footer .footer_logo{
+	margin-bottom: 20px;
+}
+
+.footer .footer_logo a{
+	font-size: 35px;
+	color: #000;
+}
+
+.footer .footer_logo a span{
+	color: burlywood;
+	font-size: 35px;
+	font-weight: 700;
+}
+
+.footer .footer_widget{
+	margin-bottom: 30px;
+}
+
+.footer .footer_widget h6{
+	color: #111;
+	font-weight: 600;
+	text-transform: uppercase;
+	margin-bottom: 12px;
+}
+
+.footer .footer_widget ul li{
+	list-style: none;
+	display: block;
+}
+
+.footer .footer_widget ul li a{
+	font-size: 14px;
+	color: #666;
+	line-height: 30px;
+}
+
+.footer .footer_social a{
+	height: 40px;
+	width: 40px;
+	display: inline-block;
+	background-color: #2e2e2e;
+	font-size: 15px;
+	color: #fff;
+	line-height: 40px;
+	text-align: center;
+	border-radius: 10%;
+	margin-right: 6px;
+	margin-bottom: 5px;
+	transition: all 0.5s;
+}
+
+.footer .footer_social a:hover{
+	background-color: #e46d0c;
+	color: #fff;
+}
+
+.footer .footer_social a:last-child{
+	margin-right: 0;
+}
+
+.footer_bottom .footer_bottom{
+	background-color: white;
+}
+
+/* End of Footer*/
+
+
+
+/* Cart */
+
+.cart table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cart .product-info{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cart th{
+    padding: 5px;
+    color: #fff;
+    background-color: #2e2e2e;
+}
+
+.cart td{
+    padding: 10px 20px;
+}
+
+.cart td img{
+    width: 150;
+    height: 100px;
+    margin-right: 10px;
+}
+
+.cart td input{
+    width: 40px;
+    height: 30px;
+    padding: 5px;
+}
+
+.cart td a{
+    color: burlywood;
+}
+
+.cart .edit-btn{
+    color: burlywood;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.cart ul a{
+    color: #2e2e2e;
+}
+
+.cart ul a:hover{
+    color: white;
+    background-color: burlywood;
+}
+
+.cart i {
+    font-size: 30px;
+    padding: 13px 0px;
+    transition: 0.4s ease;
+    cursor: pointer;
+    color: #2e2e2e;
+}
+
+.cart i:hover {
+    color: burlywood;
+}
+
+
+
+/* Add Product form */
+
+
+
+
+/* Update profile form */
+
+#edit-form{
+    width: 50%;
+    margin: 5px auto;
+    padding: 20px;
+    border-top: 1px solid #2e2e2e;
+    text-align: center;
+}
+
+#edit-form input{
+    width: 50%;
+    margin: 5px auto;
+}
+
+#edit-form #edit-btn{
+    background-color: burlywood;
+    color: white;
+}
+
+/* Account form */
+
+#account-info ,#delete-btn, #logout-btn, #update-btn{
+    color: white;
+    text-decoration: none;
+    background-color: burlywood;
+    border-radius: 5px;
+}
+
+.account-info{
+    text-align: left;
+    width: 100%;
+}
+
+.account-info .button{
+    text-align: left;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+#account-info, #delete-btn:hover, #logout-btn:hover, #update-btn:hover{
+    color: white;
+    background-color: #2e2e2e;
+}
+
+/* Pageination */
