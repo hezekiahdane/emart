@@ -86,14 +86,26 @@
       <div class="row mt-5">
         <div class="col-lg-5 col-md-6 col-sm-12">
         <?php
-        $result = $connect->query('SELECT * FROM product LIMIT 1'); 
-        //ADD A CONDITION FOR THE CODE ABOVE
 
-        while ($row = $result->fetch_assoc()) { ?>
+        if(isset($_GET['product_id'])){
+          $id = $_GET['product_id'];
 
-        <?php echo "<img class='img-fluid w-100 pb-1' id='mainImg' src='assets/imgs/{$row['Image']}' > "; ?>
+          $sql = "SELECT * FROM product WHERE Product_ID = $id";
+          $result = mysqli_query($connect, $sql);
 
-          <div class="small-img-group">
+          while ($row = mysqli_fetch_assoc($result)) {
+            $category_id = $row["Category_ID"];
+            $name = $row["Name"];
+            $desc = $row["Description"];
+            $img = $row["Image"];
+            $price = $row["Price"];
+            $stocks = $row["Stocks_Available"];
+          
+          ?> 
+
+        <img class='img-fluid w-100 pb-1' id='mainImg' src='assets/imgs/<?php echo $img ?>'>
+
+          <!-- <div class="small-img-group">
             <div class="small-img-col">
               <img src="assets/imgs/nike.jpeg" class="small-img w-100" />
             </div>
@@ -109,23 +121,40 @@
             <div class="small-img-col">
               <img src="assets/imgs/adidas.avif" class="small-img w-100" />
             </div>
-          </div>
+          </div> -->
+
         </div>
 
         <div class="col-lg-6 col-md-12 col-12">
-          <h6>Men / Shoes</h6>
-          <h3 class="py-5"><?php echo $row['Category_ID'] ?></h3>
-          <h2>155$</h2>
-          <input type="number" value="1" />
-          <button class="buy-btn">Add to Cart</button>
-          <h4 class="mt-5 mb-5">Product Details: </h4>
-          <h5 class="mt-5 mb-5"><?php echo $row['Description'] ?></h5>
-          <h5 class="mt-3 mb-3"> Stocks Available:  <?php echo $row['Stocks_Available'] ?></h5>
+        <?php
+          $sql = "SELECT * FROM category WHERE Category_ID = $category_id";
+          $result = mysqli_query($connect, $sql);
+          while ($row = mysqli_fetch_assoc($result)) {
+            $category_name = $row["Name"];
+          ?>
+
+            <h6><?php echo $category_name ?></h6>
+      
+          <?php break; } ?>
+
+            <h1 class="py-3"><?php echo $name ?></h1>
+            <h2 class="py-3">$<?php echo $price ?></h2>
+          <div>
+            <input type="number" value="1" />
+            <button class="buy-btn">Add to Cart</button><br>
+          </div>
+
+          <h5 class="py-5"> Stocks Available: <?php echo $stocks ?> </h5>
+          <span><?php echo $desc ?> </span>
+
 
         </div>
       </div>
 
+
       <?php } ?>
+    <?php } ?>
+
 
     </section>
 
@@ -139,13 +168,20 @@
 
       <div class="row mx-auto container-fluid">
         <!-- Related 1 -->
-        <?php (include"server/connection.php"); ?>
         <?php
-        $result = $connect->query('SELECT * FROM product LIMIT 4'); 
 
-        while ($row = $result->fetch_assoc()) { ?>
-        <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-        <?php echo "<img class='img-fluid mb-3' src='assets/imgs/{$row['Image']}' > "; ?>
+        $sql = "SELECT * FROM product LIMIT 4";
+        $result = mysqli_query($connect, $sql);
+        while ($row = mysqli_fetch_assoc($result)) { 
+          $img = $row['Image'];
+          $name = $row['Name'];
+          $price = $row['Price'];
+          $id = $row['Product_ID'];
+  
+          ?>
+
+        <div class="product text-center col-lg-3 col-md-4 col-sm-12"><a href="product.php?product_id=<?php echo $id ?>">
+        <?php echo "<img class='img-fluid mb-3' src='assets/imgs/$img'>"?></a>   
           <div class="star">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -155,7 +191,7 @@
           </div>
           <h5 class="p-name"><?php echo $row['Name'] ?></h5>
           <h4 class="p-price">$ <?php echo $row['Price'] ?></h4>
-          <button class="buy-btn">Buy Now</button>
+          <a href="product.php?product_id=<?php echo $id ?>"><button class="buy-btn">Buy Now</button></a>
         </div>
 
         <?php } ?>

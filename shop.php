@@ -124,7 +124,6 @@
       <?php
         //set the start value
           $start = 0;
-
         //set the number of rows to display per page
           $rows_per_page = 4;
 
@@ -142,21 +141,21 @@
         }
 
         //query for displaying the products to the table    
-        $result = $connect->query("SELECT * FROM product ORDER BY rand() LIMIT $start, $rows_per_page"); 
-        
-
-        while ($row = $result->fetch_assoc()) {
+        $sql = "SELECT * FROM product ORDER BY rand() LIMIT $start, $rows_per_page";
+        $result = mysqli_query($connect, $sql);
+        while ($row = mysqli_fetch_assoc($result)) {
 
         //storing the rows inside a variable for easier access
         $img = $row['Image'];
         $name = $row['Name'];
         $price = $row['Price'];
+        $id = $row['Product_ID'];
         
          ?>
 
 
-      <div onclick="window.location.href='product.php';" class="product text-center col-lg-3 col-md-4 col-sm-12">
-      <?php echo "<img class='img-fluid mb-3' src='assets/imgs/$img' > "; ?>
+      <div class="product text-center col-lg-3 col-md-4 col-sm-12"><a href="product.php?product_id=<?php echo $id ?>">
+      <?php echo "<img class='img-fluid mb-3' src='assets/imgs/$img' > "; ?></a>  
         <div class="star">
           <i class="fas fa-star"></i>
           <i class="fas fa-star"></i>
@@ -165,8 +164,9 @@
           <i class="fas fa-star"></i>
         </div>
           <h5 class="p-name"><?php echo $name ?></h5>
-          <h4 class="p-price">$ <?php echo $price ?></h4>
-        <button class="buy-btn">Buy Now</button>
+          <h4 class="p-price">$<?php echo $price ?></h4>
+          <a href="product.php?product_id=<?php echo $id ?>"><button class="buy-btn">Buy Now</button></a>
+
       </div>
 
       <?php } ?>
