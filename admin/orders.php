@@ -1,3 +1,5 @@
+<?php (include("../server/connection.php")) ?> 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -92,8 +94,8 @@
 
       <div class="py-5">
           <div class="row">
-            <div class="col text-start"><h2 class="font-weight-bold">Manage Products</h2></div>
-            <div class="col text-end"><i onclick="window.location.href='add_product.php'" class="fa-solid fa-circle-plus"></i></div>
+            <div class="col text-start my-3"><h2 class="font-weight-bold">Manage Orders</h2></div>
+            <hr>
         </div>
       </div>
 
@@ -110,8 +112,6 @@
             <th class="text-center">Edit</th>
             <th class="text-center">Delete</th>
           </tr>
-
-        <?php (include("../server/connection.php")) ?> 
         <?php
 
         //set the start value
@@ -130,11 +130,12 @@
             $start = $page * $rows_per_page;
           }
 
-        //query for displaying the products to the table    
+        //query for displaying the products to the table   
+
           $sql = "SELECT * FROM product LIMIT $start, $rows_per_page";
           $result = mysqli_query($connect, $sql);
           while ($row = mysqli_fetch_assoc($result)) { 
-            
+          
             //storing the rows in a variable
              $id = $row['Product_ID'];
              $category = $row['Category_ID'];
@@ -270,11 +271,6 @@
       </nav>
 
   </section>
-
-
-
-    
-
 
 
       <!-- Footer -->
