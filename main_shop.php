@@ -53,8 +53,8 @@
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
       <div class="container">
         <div class="header_logo">
           <a href="main.php"><span>e</span>mart.</a>
@@ -123,7 +123,7 @@
           </ul>
         </div>
       </div>
-    </nav>
+  </nav>
 
 
   <!-- Product -->
@@ -137,14 +137,11 @@
       <?php
         //set the start value
           $start = 0;
-
         //set the number of rows to display per page
           $rows_per_page = 4;
 
         //query for getting the number of rows
-          $sql = "SELECT * FROM product"; 
-          $result = mysqli_query($connect, $sql);
-
+          $result = $connect->query("SELECT * FROM product"); 
           $nr_of_rows = $result->num_rows;
 
         //calculate the number of pages
@@ -157,21 +154,21 @@
         }
 
         //query for displaying the products to the table    
-        $sql = "SELECT * FROM product LIMIT $start, $rows_per_page"; 
+        $sql = "SELECT * FROM product ORDER BY Category_ID DESC LIMIT $start, $rows_per_page";
         $result = mysqli_query($connect, $sql);
-        
-        while ($row = mysqli_fetch_assoc($result)) { 
+        while ($row = mysqli_fetch_assoc($result)) {
 
         //storing the rows inside a variable for easier access
         $img = $row['Image'];
         $name = $row['Name'];
         $price = $row['Price'];
+        $id = $row['Product_ID'];
         
          ?>
 
 
-      <div onclick="window.location.href='product.php';" class="product text-center col-lg-3 col-md-4 col-sm-12">
-      <?php echo "<img class='img-fluid mb-3' src='assets/imgs/$img' > "; ?>
+      <div class="product text-center col-lg-3 col-md-4 col-sm-12"><a href="product.php?product_id=<?php echo $id ?>">
+      <?php echo "<img class='img-fluid mb-3' src='assets/imgs/$img' > "; ?></a>  
         <div class="star">
           <i class="fas fa-star"></i>
           <i class="fas fa-star"></i>
@@ -180,8 +177,9 @@
           <i class="fas fa-star"></i>
         </div>
           <h5 class="p-name"><?php echo $name ?></h5>
-          <h4 class="p-price">$ <?php echo $price ?></h4>
-        <button class="buy-btn">Buy Now</button>
+          <h4 class="p-price">$<?php echo $price ?></h4>
+          <a href="product.php?product_id=<?php echo $id ?>"><button class="buy-btn">Buy Now</button></a>
+
       </div>
 
       <?php } ?>
@@ -268,7 +266,6 @@
 
     </div>
   </section>
-
     <!-- Footer -->
 <section class="footer_bottom">
   <div class="footer_bottom text-center py-4">

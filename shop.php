@@ -141,7 +141,7 @@
         }
 
         //query for displaying the products to the table    
-        $sql = "SELECT * FROM product ORDER BY rand() LIMIT $start, $rows_per_page";
+        $sql = "SELECT * FROM product ORDER BY Category_ID DESC LIMIT $start, $rows_per_page";
         $result = mysqli_query($connect, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
 

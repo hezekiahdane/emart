@@ -96,7 +96,7 @@
         <h5>NEW ARRIVALS</h5>
         <h1><span>Best Prices</span> for This Season</h1>
         <p>E-mart offers the best products for the most affordable prices</p>
-        <button>Shop Now</button>
+        <a href="shop.php"><button>Shop Now</button></a>
       </div>
     </section>
 
@@ -134,27 +134,31 @@
         <?php
         $sql = "SELECT * FROM product ORDER BY rand() LIMIT 4";
         $result = mysqli_query($connect, $sql);
-        while ($row = mysqli_fetch_assoc($result)) { ?>
-
-        <div class="product text-center col-lg-3 col-md-4 col-sm-12">
+        while ($row = mysqli_fetch_assoc($result)) { 
+          
+        //storing the rows inside a variable
+          $img = $row['Image'];
+          $name = $row['Name'];
+          $price = $row['Price'];
+          $id = $row['Product_ID'];
         
-        <?php echo "<img class='img-fluid mb-3' src='assets/imgs/{$row['Image']}' > "; ?>
+        ?>
 
-        <div class="star">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-          </div>
-          <h5 class="p-name"><?php echo $row['Name'] ?></h5>
-          <h4 class="p-price">$ <?php echo $row['Price'] ?></h4>
-          <button class="buy-btn">Buy Now</button>
+        <div class="product text-center col-lg-3 col-md-4 col-sm-12"><a href="product.php?product_id=<?php echo $id ?>">
+        <?php echo "<img class='img-fluid mb-3' src='assets/imgs/$img' >"?></a>
+            <div class="star">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <h5 class="p-name"><?php echo $name ?></h5>
+              <h4 class="p-price">$ <?php echo $price ?></h4>
+              <a href="product.php?product_id=<?php echo $id ?>"><button class="buy-btn">Buy Now</button></a>
+            </div>
+          <?php } ?>
         </div>
-
-        <?php } ?>
-
-      </div>
     </section>
 
     <!-- Banner -->
@@ -165,12 +169,12 @@
           Fall Collection <br />
           UP to 30% off
         </h1>
-        <button class="text-uppercase">Shop now</button>
+        <a href="shop.php"></a><button class="text-uppercase">Shop now</button></a>
       </div>
     </section>
 
     <!-- Clothes -->
-    <section id="clothes" class="my-5">
+  <section id="clothes" class="my-5">
       <div class="container text-center mt-5 py-5">
         <h3>Clothes</h3>
         <hr class="mx-auto"/>
@@ -181,26 +185,31 @@
         <?php
         $sql = "SELECT * FROM product WHERE Category_ID = 1 ORDER BY rand() LIMIT 4";
         $result = mysqli_query($connect, $sql);
-        while ($row = mysqli_fetch_assoc($result)) { ?>
+        while ($row = mysqli_fetch_assoc($result)) { 
+          $img = $row['Image'];
+          $name = $row['Name'];
+          $price = $row['Price'];
+          $id = $row['Product_ID'];
+          ?>
 
-      <div onclick="window.location.href='product.php';" class="product text-center col-lg-3 col-md-4 col-sm-12">
-      <?php echo "<img class='img-fluid mb-3' src='assets/imgs/{$row['Image']}' > "; ?>
-        <div class="star">
+      <div class="product text-center col-lg-3 col-md-4 col-sm-12"><a href="product.php?product_id=<?php echo $id ?>">
+      <?php echo "<img class='img-fluid mb-3' src='assets/imgs/$img'>"?></a>    
+      <div class="star">
           <i class="fas fa-star"></i>
           <i class="fas fa-star"></i>
           <i class="fas fa-star"></i>
           <i class="fas fa-star"></i>
           <i class="fas fa-star"></i>
         </div>
-          <h5 class="p-name"><?php echo $row['Name'] ?></h5>
-          <h4 class="p-price">$ <?php echo $row['Price'] ?></h4>
-        <button class="buy-btn">Buy Now</button>
+          <h5 class="p-name"><?php echo $name ?></h5>
+          <h4 class="p-price">$ <?php echo $price ?></h4>
+          <a href="product.php?product_id=<?php echo $id ?>"><button class="buy-btn">Buy Now</button></a>
       </div>
     <?php } ?>
 
 
       </div>
-    </section>
+  </section>
 
     <!-- Shoes -->
     <section id="shoes" class="my-5">
@@ -215,11 +224,18 @@
     <?php
         $sql = "SELECT * FROM product WHERE Category_ID = 2 ORDER BY rand() LIMIT 4";
         $result = mysqli_query($connect, $sql);
-        while ($row = mysqli_fetch_assoc($result)) { ?>
+        while ($row = mysqli_fetch_assoc($result)) { 
 
-      <div class="product text-center col-lg-3 col-md-4 col-sm-12">
+        //storing the rows inside a variable for easier access
+        $img = $row['Image'];
+        $name = $row['Name'];
+        $price = $row['Price'];
+        $id = $row['Product_ID'];
+        
+        ?>
 
-      <?php echo "<img class='img-fluid mb-3' src='assets/imgs/{$row['Image']}' > "; ?>
+      <div class="product text-center col-lg-3 col-md-4 col-sm-12"><a href="product.php?product_id=<?php echo $id ?>">
+      <?php echo "<img class='img-fluid mb-3' src='assets/imgs/$img'>"?></a>    
         <div class="star">
           <i class="fas fa-star"></i>
           <i class="fas fa-star"></i>
@@ -227,9 +243,9 @@
           <i class="fas fa-star"></i>
           <i class="fas fa-star"></i>
         </div>
-          <h5 class="p-name"><?php echo $row['Name'] ?></h5>
-          <h4 class="p-price">$ <?php echo $row['Price'] ?></h4>
-          <button class="buy-btn">Buy Now</button>
+          <h5 class="p-name"><?php echo $name ?></h5>
+          <h4 class="p-price">$ <?php echo $price ?></h4>
+        <a href="product.php?product_id=<?php echo $id ?>"><button class="buy-btn">Buy Now</button></a>
         </div>
 
         <?php } ?>

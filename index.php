@@ -86,7 +86,7 @@
         <h5>NEW ARRIVALS</h5>
         <h1><span>Best Prices</span> for This Season</h1>
         <p>E-mart offers the best products for the most affordable prices</p>
-        <button>Shop Now</button>
+        <a href="shop.php"><button>Shop Now</button></a>
       </div>
     </section>
 
