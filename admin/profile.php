@@ -8,7 +8,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="admin.css" />
+    <link rel="stylesheet" href="../assets/css/admin.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -39,27 +39,20 @@
           id="navbarSupportedContent"
         >
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link" href="admin.php">Products</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="#featured">Shop</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#">Blog</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" href="categories.php">Categories</a>
             </li>
 
             <li class="nav-item">
                 <div class="dropdown">
                   <i onclick="window.location.href='account.php'" class="fa-solid fa-user dropdown"></i>                    
                     <div class="dropdown-content">
-                    <a href="profile.php">Edit Profile</a>
+                    <a href="account.php">Edit Profile</a>
                     <a href="../server/logout.php">Log Out</a>
                     </div>
                 </div>
@@ -87,7 +80,6 @@
         
       </div>
     </nav>
-
 
     <!-- profile -->
     <section class="my-5 py-5">
