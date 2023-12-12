@@ -42,10 +42,6 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
             <li class="nav-item">
-              <a class="nav-link" href="orders.php">Orders</a>
-            </li>
-
-            <li class="nav-item">
               <a class="nav-link" href="admin.php">Products</a>
             </li>
 
@@ -131,10 +127,9 @@
           }
 
         //query for displaying the products to the table    
-          $sql = "SELECT * FROM product LIMIT $start, $rows_per_page";
-          $result = mysqli_query($connect, $sql);
-          while ($row = mysqli_fetch_assoc($result)) { 
-            
+          $result = $connect->query("SELECT * FROM product LIMIT $start, $rows_per_page"); 
+          
+          while ($row = $result->fetch_assoc()) { 
             //storing the rows in a variable
              $id = $row['Product_ID'];
              $category = $row['Category_ID'];
