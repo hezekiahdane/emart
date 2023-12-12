@@ -59,7 +59,7 @@
             </li>
 
             <li class="nav-item">
-              <i onclick="window.location.href='#'" class="fa-solid fa-cart-shopping"></i>
+                <i onclick="window.location.href='#'" class="fa-solid fa-cart-shopping"><sup>0</sup></i>
             </li>
 
 
