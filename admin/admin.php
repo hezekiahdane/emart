@@ -115,8 +115,11 @@
         //set the number of rows to display per page
           $rows_per_page = 5;
         //query for getting the number of rows
-          $records = $connect->query("SELECT * FROM product"); 
+          $sql = "SELECT * FROM product"; 
+          $records = mysqli_query($connect, $sql);
+
           $nr_of_rows = $records->num_rows;
+
         //calculate the number of pages
           $pages = ceil($nr_of_rows / $rows_per_page);
 
@@ -127,9 +130,10 @@
           }
 
         //query for displaying the products to the table    
-          $result = $connect->query("SELECT * FROM product LIMIT $start, $rows_per_page"); 
+          $sql = "SELECT * FROM product LIMIT $start, $rows_per_page";
+          $result = mysqli_query($connect, $sql);
           
-          while ($row = $result->fetch_assoc()) { 
+          while($row = mysqli_fetch_array($result)){
             //storing the rows in a variable
              $id = $row['Product_ID'];
              $category = $row['Category_ID'];

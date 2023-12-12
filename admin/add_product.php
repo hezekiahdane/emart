@@ -19,13 +19,13 @@
       //accessing image temp name
       $temp_img = $_FILES['img']['tmp_name'];
 
-      move_uploaded_file($temp_img,"./product_images/$img");
-
+      //this creates a copy of the image file that is uploaded and pastes it into our image folder 
+      move_uploaded_file($temp_img,"../assets/imgs/$img");
 
       $sql= "INSERT INTO product (Category_ID, Name, Description, Image, Price, Stocks_Available, SKU)
       VALUES('$category', '$name', '$description', '$img', $price, $stocks, $sku)";
       mysqli_query($connect, $sql);
-        echo"<script> alert('New product added!'); </script>";
+        echo"<script> alert('New product added!'); window.location.href='admin.php'; </script>";
     }
 ?>
 
@@ -73,7 +73,7 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
             <li class="nav-item">
-              <a class="nav-link" href="products.php">Products</a>
+              <a class="nav-link" href="admin.php">Products</a>
             </li>
 
             <li class="nav-item">

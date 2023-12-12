@@ -128,7 +128,7 @@
 
       <div class="col-md-2">
       <label class="form-label">Category</label>
-          <select id="category" class="form-select" id="category" name="category" required>
+          <select id="category" class="form-select" id="category" name="category" value="" required>
             <?php 
                 $sql = "SELECT * FROM category";
                 $result = mysqli_query($connect, $sql); 
