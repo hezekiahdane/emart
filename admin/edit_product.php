@@ -157,8 +157,6 @@
                     $sku = $row["SKU"];
                     $img = $row["Image"];
                     $desc = $row["Description"];
-
-
                 ?>
 
       <!-- Name -->

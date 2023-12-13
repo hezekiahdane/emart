@@ -349,7 +349,7 @@ button:hover{
 .cart td img{
     width: 150;
     height: 100px;
-    margin-right: 10px;
+    text-align: center;
 }
 
 .cart td input{

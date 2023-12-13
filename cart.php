@@ -1,3 +1,5 @@
+<?php include("server/connection.php"); session_start(); ?> 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -109,8 +111,6 @@
 
             <li class="nav-item">
            <?php
-              session_start();
-              include("server/connection.php");
                 $uname = $_SESSION['uname'];
                 $sql="select * from user";
                 $result = mysqli_query($connect, $sql);
@@ -129,67 +129,56 @@
     </nav>
 
     <!-- cart -->
-    <section class="cart container my-5 py-5">
-      <div class="container mt-5">
-        <h2 class="font-weight-bold">Your Cart</h2>
-        <hr />
-      </div>
+    <div class="container py-5">
+        <div class="text-start">
+            <h3><?php echo $_SESSION['uname'];?>'s cart</h3>
+            <hr>
+        </div>
 
-      <table class="mt-5 pt-5">
-        <tr>
-          <th>Product</th>
-          <th>Quantity</th>
-          <th>Subtotal</th>
-          <th>Image</th>
-          <th>Price</th>
-          <th>Stocks Available</th> 
-          <th>SKU</th>
-          <th>Edit</th>
-          <th>Delete</th>
-        </tr>
-        <tr>
-          <td>
-            <div class="product-info">
-              <img src="assets/imgs/nike.jpeg" />
-              <div>
-                <p>Nike Dunk Low Panda</p>
-                <small><span>$</span>100.00</small>
-                <br />
-                <a href="#" class="remove-btn">Remove</a>
-              </div>
-            </div>
-          </td>
-
-          <td>
-            <input type="number" value="1" />
-            <a href="product.html" class="edit-btn">Edit</a>
-          </td>
-
-          <td>
-            <span>$</span>
-            <span class="price">100.00</span>
-          </td>
-        </tr>
-
-      </table>
-
-      <div class="cart-total">
-        <table>
+        <table class="cart table table-hover text-center" width="100%">
+           <tr>
+              <th width="15%" class="text-center">Product Name</th>
+              <th width="15%" class="text-center">Image</th>
+              <th class="text-center">Quantity</th>
+              <th class="text-center">Price</th>
+              <th class="text-center">Edit</th>
+              <th class="text-center">Delete</th>
+            </tr>
+            
           <tr>
-            <td>Subtotal</td>
-            <td>$100.00</td>
+            <td class="py-5">test</td>
+            <td class="text-center"> 
+                <img src="assets/imgs/adidas_superstar.avif" />
+            </td>
+            <td class="py-5">test</td>
+            <td class="py-5">test</td>
+            <td class="py-5">Edit</td>
+            <td class="text-center py-5">Delete</td>
           </tr>
-          <tr>
-            <td>Total</td>
-            <td>$100.00</td>
-          </tr>
-        </table>
-      </div>
 
-      <div class="checkout-container">
-        <button class="btn checkout-btn">Check Out</button>
-      </div>
-    </section>
+       </table>
+
+        <!-- Total price -->
+        <div class="total-price text-end py-3">
+            <?php if (isset($_SESSION['cart'])) {
+                $totalCartPrice = 0;
+                foreach ($_SESSION['cart'] as $item) {
+                    $itemTotal = $item['Price'] * $item['Quantity'];
+                    $totalCartPrice += $itemTotal;
+                }
+                echo "<p>Total Price: ₱" . $totalCartPrice . "</p>";
+            } ?>
+        </div>
+
+        <!-- Checkout button styled similar to logout button -->
+        <div class="checkout-container text-center py-3" >
+            <form method="POST" action="checkout.php"> <!-- Changed action to 'checkout.php' -->
+                <input type="hidden" name="checkout">
+                    <button type="submit" class="logout-btn">Checkout</button>
+            </form>
+        </div>
+
+    </div>
 
 
       <!-- Footer -->
