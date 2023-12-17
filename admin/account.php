@@ -135,7 +135,6 @@
         return confirm('Are you sure you want to Log out?');
       }
 
-
     </script>
 
   </body>

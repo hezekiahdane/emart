@@ -1,3 +1,5 @@
+<?php (include("../server/connection.php")) ?> 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -100,13 +102,13 @@
             <th class="text-center">Delete</th>
         </tr>
 
-        <?php (include("../server/connection.php")) ?> 
         <?php
 
         //query for displaying the products to the table    
-          $result = $connect->query("SELECT * FROM category"); 
+          $sql= "SELECT * FROM category";
+          $result = mysqli_query($connect, $sql);
           
-          while ($row = $result->fetch_assoc()) { 
+          while($row=mysqli_fetch_array($result)){
             //storing the rows in a variable
              $id = $row['Category_ID'];
              $name = $row['Name'];
@@ -167,8 +169,6 @@
     }
     ?>  
   </div>
-
-
 
 
 

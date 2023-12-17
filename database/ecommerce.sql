@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2023 at 12:04 PM
+-- Generation Time: Dec 13, 2023 at 03:41 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -36,6 +36,13 @@ CREATE TABLE `address` (
   `Postal_Code` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `address`
+--
+
+INSERT INTO `address` (`Address_ID`, `Address_Line_1`, `Address_Line_2`, `City`, `State`, `Postal_Code`) VALUES
+('6T4uDteQ8h', '1', '1', 'Lap-Lapu City', 'Cebu', '6015');
+
 -- --------------------------------------------------------
 
 --
@@ -55,7 +62,7 @@ INSERT INTO `category` (`Category_ID`, `Name`) VALUES
 (1, 'Clothes'),
 (2, 'Shoes'),
 (3, 'Jackets'),
-(4, 'Cosmetics');
+(6, 'Cosmetics');
 
 -- --------------------------------------------------------
 
@@ -66,10 +73,9 @@ INSERT INTO `category` (`Category_ID`, `Name`) VALUES
 CREATE TABLE `order` (
   `Order_ID` int(50) NOT NULL,
   `User_ID` varchar(50) NOT NULL,
-  `Payment_ID` int(50) NOT NULL,
-  `Address_ID` int(50) NOT NULL,
+  `Payment_ID` int(50) NOT NULL DEFAULT 0,
+  `User_Address` int(50) NOT NULL,
   `Order_Date` date NOT NULL,
-  `Total_Price` varchar(50) NOT NULL,
   `Status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -81,9 +87,8 @@ CREATE TABLE `order` (
 
 CREATE TABLE `order_items` (
   `Order_Items_ID` int(50) NOT NULL,
-  `Payment_ID` int(50) NOT NULL,
+  `User_ID` varchar(50) NOT NULL,
   `Product_ID` int(50) NOT NULL,
-  `Order_ID` int(50) NOT NULL,
   `Total_Price` int(50) NOT NULL,
   `Quantity` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -100,6 +105,13 @@ CREATE TABLE `payment` (
   `Account_Number` int(12) NOT NULL,
   `Account_Name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`Payment_ID`, `User_ID`, `Account_Number`, `Account_Name`) VALUES
+(12, 'test', 1234, 'test');
 
 -- --------------------------------------------------------
 
@@ -195,8 +207,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`User_ID`, `password`, `First_Name`, `Middle_Name`, `Last_Name`, `Email`, `Phone_Number`, `usertype`) VALUES
+('account', 'account', 'account', 'account', 'account', 'account@hotmail.com', 1234, 0),
 ('admin', 'admin', 'admin', 'a', 'admin', 'admin@hotmail.com', 123, 1),
-('test', 'test', 'test', 'test', 'test', 'test@hotmail.com', 2341, 0);
+('test', 'test', 'Zeke', 'Dane', 'Meñoso', 'menosohezekiahdane@gmail.com', 9126480555, 0);
 
 -- --------------------------------------------------------
 
@@ -205,6 +218,7 @@ INSERT INTO `user` (`User_ID`, `password`, `First_Name`, `Middle_Name`, `Last_Na
 --
 
 CREATE TABLE `user_address` (
+  `User_Address` int(50) NOT NULL,
   `User_ID` varchar(50) NOT NULL,
   `Address_ID` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -213,9 +227,9 @@ CREATE TABLE `user_address` (
 -- Dumping data for table `user_address`
 --
 
-INSERT INTO `user_address` (`User_ID`, `Address_ID`) VALUES
-('', 0),
-('', 0);
+INSERT INTO `user_address` (`User_Address`, `User_ID`, `Address_ID`) VALUES
+(1, '', 0),
+(2, '', 0);
 
 -- --------------------------------------------------------
 
@@ -257,18 +271,17 @@ ALTER TABLE `category`
 --
 ALTER TABLE `order`
   ADD PRIMARY KEY (`Order_ID`),
-  ADD KEY `fk_order_address` (`Address_ID`),
   ADD KEY `fk_order_product_id` (`Payment_ID`),
-  ADD KEY `fk_user_id` (`User_ID`);
+  ADD KEY `fk_user_id` (`User_ID`),
+  ADD KEY `fk_user_address` (`User_Address`);
 
 --
 -- Indexes for table `order_items`
 --
 ALTER TABLE `order_items`
   ADD PRIMARY KEY (`Order_Items_ID`),
-  ADD KEY `fk_order` (`Order_ID`),
   ADD KEY `fk_order_items_product_id` (`Product_ID`),
-  ADD KEY `fk_payment_ID` (`Payment_ID`);
+  ADD KEY `fk_order_items_cart_user_id` (`User_ID`);
 
 --
 -- Indexes for table `payment`
@@ -309,6 +322,7 @@ ALTER TABLE `user`
 -- Indexes for table `user_address`
 --
 ALTER TABLE `user_address`
+  ADD PRIMARY KEY (`User_Address`),
   ADD KEY `fk_user` (`User_ID`),
   ADD KEY `fk_address` (`Address_ID`);
 
@@ -327,13 +341,19 @@ ALTER TABLE `variation_option`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `Category_ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Category_ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `order`
+--
+ALTER TABLE `order`
+  MODIFY `Order_ID` int(50) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `Order_Items_ID` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `Order_Items_ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -346,6 +366,12 @@ ALTER TABLE `product`
 --
 ALTER TABLE `product_config`
   MODIFY `Product_Config_ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `user_address`
+--
+ALTER TABLE `user_address`
+  MODIFY `User_Address` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `variation_option`
@@ -362,16 +388,15 @@ ALTER TABLE `variation_option`
 --
 ALTER TABLE `order`
   ADD CONSTRAINT `fk_order_product_id` FOREIGN KEY (`Payment_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user_address` FOREIGN KEY (`User_Address`) REFERENCES `user_address` (`User_Address`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`User_ID`) REFERENCES `user` (`User_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `order_items`
 --
 ALTER TABLE `order_items`
-  ADD CONSTRAINT `fk_order` FOREIGN KEY (`Order_ID`) REFERENCES `order` (`Order_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_order_items_payment` FOREIGN KEY (`Payment_ID`) REFERENCES `payment` (`Payment_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_order_items_product_id` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_payment_ID` FOREIGN KEY (`Payment_ID`) REFERENCES `payment` (`Payment_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_order_items_cart_user_id` FOREIGN KEY (`User_ID`) REFERENCES `user` (`User_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_order_items_product_id` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `payment`

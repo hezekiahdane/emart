@@ -1,4 +1,8 @@
-<?php   include("server/connection.php"); ?>
+<?php   include("server/connection.php"); 
+  session_start();
+  $uname = $_SESSION['uname'];
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,11 +22,11 @@
   </head>
 
   <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
       <div class="container">
         <div class="header_logo">
-          <a href="index.php"><span>e</span>mart.</a>
+          <a href="main.php"><span>e</span>mart.</a>
         </div>
         <button
           class="navbar-toggler"
@@ -42,13 +46,11 @@
         >
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="index.php"
-                >Home</a
-              >
+              <a class="nav-link active" aria-current="page" href="main.php">Home</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="shop.php">Shop</a>
+              <a class="nav-link" href="main_shop.php">Shop</a>
             </li>
 
             <li class="nav-item">
@@ -56,30 +58,35 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="contact.php">Contact</a>
+              <a class="nav-link" href="#">Contact</a>
             </li>
 
             <li class="nav-item">
-            <i onclick="window.location.href='cart.php'" class="fa-solid fa-cart-shopping"><sup>0</sup></i>
+            <?php include("server/cart_items.php"); ?>
+              <i onclick="window.location.href='cart.php'" class="fa-solid fa-cart-shopping"><sup><?php echo $total_rows ?></sup></i>
             </li>
 
-            <li class="nav-item">
-              <i class="fa-solid fa-user dropdown"></i>
-            </li>
 
             <li class="nav-item">
-              <div class="dropdown">
-                <a href="#" class="nav-link">Welcome, Guest </a>
+            <div class="dropdown">
+              <i onclick="window.location.href='server/login.php'" class="fa-solid fa-user"></i>
                 <div class="dropdown-content">
-                  <a href="server/login.php">Login</a>
-                  <a href="register.php">Create Account</a>
+                <a href="account.php">View Profile</a>
+                <a onclick=" if (logout() == true){ window.location.href='server/logout.php'; }">Log Out</a>
                 </div>
-              </div>
+               </div>              
+           </li>
+
+           <li class="nav-item">
+           <?php     
+                echo "<a href='#' class='nav-link'>Welcome, $uname </a>";
+          ?>
             </li>
+
           </ul>
         </div>
       </div>
-    </nav>
+  </nav>
 
     <!-- Product -->
     <section class="container single-product my-5 pt-5">
@@ -126,22 +133,39 @@
         </div>
 
         <div class="col-lg-6 col-md-12 col-12">
+          <!-- Displaying the category -->
         <?php
           $sql = "SELECT * FROM category WHERE Category_ID = $category_id";
           $result = mysqli_query($connect, $sql);
           while ($row = mysqli_fetch_assoc($result)) {
             $category_name = $row["Name"];
           ?>
-
             <h6><?php echo $category_name ?></h6>
-      
           <?php break; } ?>
 
             <h1 class="py-3"><?php echo $name ?></h1>
             <h2 class="py-3">$<?php echo $price ?></h2>
+
           <div>
-            <input type="number" value="1" name="quantity" />
-            <button class="buy-btn">Add to Cart</button><br>
+
+          <!-- Adding product into cart -->
+            <form method="post">
+            <?php 
+            //PHP code to insert into database
+               if(isset($_POST["add-to-cart"])){
+
+                $qty = $_POST['quantity'];
+
+                $sql= "INSERT INTO order_items (User_ID, Product_ID, Total_Price, Quantity)
+                VALUES('$uname', $id, $price, $qty)";
+                mysqli_query($connect, $sql);
+                echo"<script> alert('Product is added to cart!'); window.location.href='product.php?product_id= $id'</script>"; 
+               }
+          
+          ?>
+              <input type="number" value="1" name="quantity" />
+              <button class="buy-btn" name="add-to-cart">Add to Cart</button><br>
+            </form>
           </div>
 
           <h5 class="py-5"> Stocks Available: <?php echo $stocks ?> </h5>
@@ -210,14 +234,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-      var mainImg = document.getElementById("mainImg");
-      var smallImg = document.getElementsByClassName("small-img");
+      // var mainImg = document.getElementById("mainImg");
+      // var smallImg = document.getElementsByClassName("small-img");
 
-      for (let i = 0; i < 4; i++) {
-        smallImg[i].onclick = function () {
-          mainImg.src = smallImg[i].src;
-        };
+      // for (let i = 0; i < 4; i++) {
+      //   smallImg[i].onclick = function () {
+      //     mainImg.src = smallImg[i].src;
+      //   };
+      // }
+
+      function logout(){
+        return confirm('Are you sure you want to Log out?');
       }
+
     </script>
   </body>
 </html>

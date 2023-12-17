@@ -1,3 +1,37 @@
+<?php   
+  include("server/connection.php"); 
+  session_start();
+  $uname = $_SESSION['uname'];
+
+  //Displaying the Account Details
+  $sql= "SELECT * FROM user where User_ID = '$uname'";
+  $result = mysqli_query($connect, $sql);
+
+  while($row = mysqli_fetch_assoc($result)) { 
+  $fname = $row['First_Name'];
+  $mname = $row['Middle_Name'];
+  $lname = $row['Last_Name'];
+  $email = $row['Email'];
+  $phone = $row['Phone_Number'];
+  $img = $row['Image'];
+}
+
+?>
+
+<?php 
+    //Displaying the User Address
+    $sql = "SELECT * FROM user_address ua JOIN address a ON ua.Address_ID = a.Address_ID 
+    JOIN product p ON ua.User_Address_ID = p.Product_ID WHERE User_ID = '$uname'";
+    $result = mysqli_query($connect, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+      $add1 = $row['Address_Line_1'];
+      $add2 = $row['Address_Line_2'];
+      $city = $row['City'];
+      $state = $row['State'];
+      $pcode = $row['Postal_Code'];
+  }
+?> 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,8 +49,9 @@
     />
   </head>
   <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
       <div class="container">
         <div class="header_logo">
           <a href="main.php"><span>e</span>mart.</a>
@@ -43,7 +78,7 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="shop.php">Shop</a>
+              <a class="nav-link" href="main_shop.php">Shop</a>
             </li>
 
             <li class="nav-item">
@@ -51,96 +86,202 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="activeContact.php">Contact</a>
+              <a class="nav-link" href="#">Contact</a>
             </li>
 
             <li class="nav-item">
-            <i onclick="window.location.href='cart.php'" class="fa-solid fa-cart-shopping"><sup>0</sup></i>
+            <?php include("server/cart_items.php"); ?>
+              <i onclick="window.location.href='cart.php'" class="fa-solid fa-cart-shopping"><sup><?php echo $total_rows ?></sup></i>
             </li>
 
+
             <li class="nav-item">
-                <div class="dropdown">
-                  <i onclick="window.location.href='account.php'" class="fa-solid fa-user dropdown"></i>                    
-                    <div class="dropdown-content">
-                    <a href="profile.php">Edit Profile</a>
-                    <a href="server/logout.php">Log Out</a>
-                    </div>
+            <div class="dropdown">
+              <i onclick="window.location.href='account.php'" class="fa-solid fa-user"></i>
+                <div class="dropdown-content">
+                <a href="account.php">View Profile</a>
+                <a onclick=" if (logout() == true){ window.location.href='server/logout.php'; }">Log Out</a>
                 </div>
+               </div>
            </li>
 
-           
            <li class="nav-item">
-           <?php
-              session_start();
-              include("server/connection.php");
-                $uname = $_SESSION['uname'];
-                $sql="select * from user";
-                $result = mysqli_query($connect, $sql);
-
-                while($row=mysqli_fetch_array($result)){
-                echo "<a href='#' class='nav-link'>Welcome, $uname </a>";
-                break;
-              } 
-          ?>
+              <?php echo "<a href='#' class='nav-link'>Welcome, $uname </a>"; ?>
             </li>
-
 
           </ul>
         </div>
       </div>
-    </nav>
+  </nav>
 
-    <!-- account -->
-    <section class="m-0 p-0">
-        <div class="container mt-3 pt-5">
-            <div class=" mx-auto container">
-                <h2 class="font-weight-bold">Account Info</h2>
-                 <hr class="mx-auto">
-                 <div class="account-info">
+<!-- Account -->
+<section>
+  <!-- Header -->
+   <div class="container my-5">
+    <div class="row">
+      <h2 class="col font-weight-bold my-3">Account Details</h2>
 
-                 <?php include('server/get_user_details.php');?>
-                 <?php while($row=$user_details->fetch_assoc()) { ?>
+    <!-- Buttons -->
+      <div class="col container text-end my-3">
+        <button onclick="window.location.href='profile.php'" id="update-btn">Edit Account</button>
+        <button onclick=" if (checkdelete() == true){
+          window.location.href='server/delete_account.php';
+          }" id="delete-btn">Delete Account</button>          
+        <button onclick="window.location.href='address.php'" id="update-btn">Add Address</button>
+        <button onclick=" if (logout() == true){
+          window.location.href='server/logout.php';
+          }" id="logout-btn">Log Out</button>
+      </div>
+    </div>
+    
+    <hr>
+  </div>
 
-                 
-                    <p><b>Name: </b><?php echo "<span>$uname</span>" ?></p>
-                    <p><b>First Name: </b><?php echo $row['First_Name']?></p>
-                    <p><b>Last Name: </b><?php echo $row['Last_Name']?></p>
-                    <p><b>Email: </b><?php echo $row['Email']?></p>
-                    <p><b>Phone Number: </b><?php echo $row['Phone_Number']?></p>
-                    
-                  <?php break; } ?>
-
-                    <div class="button py-2">
-                        <button onclick="window.location.href='profile.php'" id="update-btn">Update Account</button>
-                    </div>
-
-                    <div class="button py-2">
-                        <button onclick=" if (checkdelete() == true){
-                          //?php header('server/delete_account.php'); ?>
-                          window.location.href='server/delete_account.php';
-                        }" id="delete-btn">Delete Account</button>                        
-                    </div>
-
-                    <div class="button py-2">
-                        <button onclick=" if (logout() == true){
-                          window.location.href='server/logout.php';
-                        }" id="logout-btn">Log Out</button>
-                    </div>
-
-                 </div>
-            </div>
+<!-- Account Details -->
+  <div class="container my-3">
+    <!-- Account Details Row -->
+    <div class="row">
+      <!-- Account Details Left child -->
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="assets/imgs/<?php echo $img ?>"
+              class="rounded-circle img-fluid" style="width: 145px;">
+            <h5 class="my-3"><b>User : <?php echo " " . $uname ?></b></h5>
+          </div>
         </div>
-    </section>
+      </div>
+      
+      <!-- Account Details Right child -->
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+          <!-- Full name -->
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0"><b>Full Name</b></p>
+              </div>
+              <div class="col-sm-9">
+                <!-- Using string concatentation to display full name -->
+                <p class="text-muted mb-0"><?php echo $fname . " " . $mname . " " .$lname ?></p>
+              </div>
+            </div>
+            <hr>
+
+            <!-- email -->
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0"><b>Email</b></p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><?php echo $email ?></p>
+              </div>
+            </div>
+            <hr>
+
+            <!-- mobile -->
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0"><b>Mobile</b></p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><?php echo $phone ?></p>
+              </div>
+            </div>
+            <hr>
+
+            <!-- Address -->
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0"><b>Address</b></p>
+              </div>
+              
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><?php echo $add1 . " " . $add2 . " " . $city . " " . $state . " " . $pcode ?></p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+       </div>
+
+      </div>
+    </div>
+
+</section>
+
+<!-- Orders -->
+<section>
+<?php 
+     //Displaying the orders here
+     $sql = "SELECT * FROM orders WHERE User_ID = '$uname'";
+     $result = mysqli_query($connect, $sql);
+     if ($row = mysqli_num_rows($result) == 0) {
+      //This will be displayed if there are no orders or if the order table is empty based on a specifc user
+      echo "<div class='container'>
+      <div class='text-start'>
+          <h2 class='mb-3'>Your Orders</h2>
+      </div>
+
+      <table class='cart table table-hover text-center my-5' width='100%'>
+         <tr>
+         <td class='text-center'>You have no orders. Shop now!</td>
+        </tr>
+     </table>
+</div>
+";
+     } else {
+      //This will display the orders in a table format
+      $sql = "SELECT * FROM orders WHERE User_ID = '$uname'";
+      $result = mysqli_query($connect, $sql);
+      while ($row = mysqli_fetch_assoc($result)) {
+        $order_id = $row["Order_ID"];
+        $payment_id = $row["Payment_ID"];
+        $user_address = $row["User_Address"];
+        $order_date = $row["Order_Date"];
+        $status = $row["Status"];
 
 
+      }
+      echo"<div class='container'>
+      <div class='text-start'>
+          <h2 class='mb-3'>Your Orders</h2>
+      </div>
+
+      <table class='cart table table-hover text-center my-5' width='100%'>
+         <tr>
+          <th class='text-center'>Order ID</th>
+          <th class='text-center'>Payment ID</th>
+          <th class='text-center'>Address</th>
+          <th class='text-center'>Order Date</th>
+          <th class='text-center'>Total Price</th>
+          <th class='text-center'>Status</th>
+        </tr>
+          
+        <tr>
+          <td class='text-center'> $order_id </td>
+          <td > $payment_id </td>
+          <td > $user_address </td>
+          <td > $order_date </td>
+          <td > $order_id </td>
+          <td class='text-center'> $status </td>
+        </tr>
+
+     </table>
+</div>
+";
+     }
+
+?>
+</section>
 
 
-      <!-- Footer -->
-      <section class="footer_bottom">
+<!-- Footer -->
+<section class="footer_bottom">
         <div class="footer_bottom text-center py-4">
           <p class="mb-0">Copyright &copy; 2023 emart. All rights reserved.</p>
         </div>
-      </section>
+</section>
 
 
     <script

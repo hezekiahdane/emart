@@ -1,3 +1,10 @@
+<?php
+     include("server/connection.php");   
+    session_start();
+    $uname = $_SESSION['uname'];
+
+?>              
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,13 +23,12 @@
   </head>
   <body>
     
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
       <div class="container">
         <div class="header_logo">
-          <a href="#"><span>e</span>mart.</a>
+          <a href="main.php"><span>e</span>mart.</a>
         </div>
-        <!-- <img src="assets/imgs/logo.jpeg" /> -->
         <button
           class="navbar-toggler"
           type="button"
@@ -41,7 +47,7 @@
         >
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="main.php">Home</a>
             </li>
 
             <li class="nav-item">
@@ -57,38 +63,32 @@
             </li>
 
             <li class="nav-item">
-            <i onclick="window.location.href='cart.php'" class="fa-solid fa-cart-shopping"><sup>0</sup></i>
+              <?php include("server/cart_items.php"); ?>
+              <i onclick="window.location.href='cart.php'" class="fa-solid fa-cart-shopping"><sup><?php echo $total_rows ?></sup></i>
             </li>
+
+
 
             <li class="nav-item">
-                <div class="dropdown">
-                  <i onclick="window.location.href='account.php'" class="fa-solid fa-user dropdown"></i>                    
-                    <div class="dropdown-content">
-                    <a href="profile.php">Edit Profile</a>
-                    <a href="server/logout.php">Log Out</a>
-                    </div>
+            <div class="dropdown">
+              <i onclick="window.location.href='account.php'" class="fa-solid fa-user"></i>
+                <div class="dropdown-content">
+                <a href="account.php">View Profile</a>
+                <a onclick=" if (logout() == true){ window.location.href='server/logout.php'; }">Log Out</a>
                 </div>
+               </div>              
            </li>
 
-           
            <li class="nav-item">
-           <?php
-              session_start();
-              include("server/connection.php");      
-                $uname = $_SESSION['uname'];
-                $sql="select * from user";
-                $result = mysqli_query($connect, $sql);
-
-                while($row=mysqli_fetch_array($result)){
+           <?php     
                 echo "<a href='#' class='nav-link'>Welcome, $uname </a>";
-                break;
-              } 
           ?>
             </li>
+
           </ul>
         </div>
       </div>
-    </nav>
+  </nav>
 
     <!-- Home -->
     <section id="home">
@@ -96,7 +96,7 @@
         <h5>NEW ARRIVALS</h5>
         <h1><span>Best Prices</span> for This Season</h1>
         <p>E-mart offers the best products for the most affordable prices</p>
-        <a href="shop.php"><button>Shop Now</button></a>
+        <a href="main_shop.php"><button>Shop Now</button></a>
       </div>
     </section>
 
@@ -169,7 +169,7 @@
           Fall Collection <br />
           UP to 30% off
         </h1>
-        <a href="shop.php"></a><button class="text-uppercase">Shop now</button></a>
+        <a href="main_shop.php"></a><button class="text-uppercase">Shop now</button></a>
       </div>
     </section>
 
@@ -271,5 +271,11 @@
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     ></script>
+  <script>
+    function logout(){
+      return confirm('Are you sure you want to Log out?');
+    }
+  </script>
+
   </body>
 </html>

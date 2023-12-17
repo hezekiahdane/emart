@@ -446,51 +446,11 @@ th:last-child{
     color: burlywood;
 }
 
-/* Register form */
-
-#register-form{
-    width: 50%;
-    margin: 5px auto;
-    padding: 20px;
-    border-top: 1px solid #2e2e2e;
-    text-align: center;
-}
-
-#register-form input{
-    width: 50%;
-    margin: 5px auto;
-}
-
-#register-form #register-btn{
-    background-color: burlywood;
-    color: white;
-}
-
-#register-form #login-url{
-    color: burlywood;
-}
-
-/* Update profile form */
-
-#edit-form{
-    width: 50%;
-    margin: 5px auto;
-    padding: 20px;
-    border-top: 1px solid #2e2e2e;
-    text-align: center;
-}
-
-#edit-form input{
-    width: 50%;
-    margin: 5px auto;
-}
-
-#edit-form #edit-btn{
-    background-color: burlywood;
-    color: white;
-}
-
 /* Account form */
+
+.form-label{
+    font-weight: bold;
+}
 
 #account-info ,#delete-btn, #logout-btn, #update-btn{
     color: white;
@@ -580,3 +540,4 @@ th:last-child{
 #contact span{
     color: burlywood;
 }
+

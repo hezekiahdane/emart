@@ -1,4 +1,8 @@
-<?php include("server/connection.php"); session_start(); ?> 
+<?php 
+    include("server/connection.php"); 
+    session_start(); 
+    $uname = $_SESSION['uname'];
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,11 +56,11 @@
   </head>
 
   <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
       <div class="container">
         <div class="header_logo">
-          <a href="index.php"><span>e</span>mart.</a>
+          <a href="main.php"><span>e</span>mart.</a>
         </div>
         <button
           class="navbar-toggler"
@@ -76,13 +80,11 @@
         >
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="index.php"
-                >Home</a
-              >
+              <a class="nav-link active" aria-current="page" href="main.php">Home</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="shop.php">Shop</a>
+              <a class="nav-link" href="main_shop.php">Shop</a>
             </li>
 
             <li class="nav-item">
@@ -90,49 +92,42 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="activeContact.php">Contact</a>
+              <a class="nav-link" href="#">Contact</a>
             </li>
 
             <li class="nav-item">
-              <i onclick="window.location.href='#'" class="fa-solid fa-cart-shopping"><sup>0</sup></i>
+              <?php include("server/cart_items.php"); ?>
+              <i onclick="window.location.href='cart.php'" class="fa-solid fa-cart-shopping"><sup><?php echo $total_rows ?></sup></i>
             </li>
 
 
 
             <li class="nav-item">
-              <div class="dropdown">
-              <i onclick="window.location.href='account.php'"  class="fa-solid fa-user dropdown"></i>
+            <div class="dropdown">
+              <i onclick="window.location.href='account.php'" class="fa-solid fa-user"></i>
                 <div class="dropdown-content">
-                  <a href="profile.php">Edit Profile</a>
-                  <a href="server/logout.php">Logout</a>
+                  <a href="account.php">View Profile</a>
+                  <a onclick=" if (logout() == true){ window.location.href='server/logout.php'; }">Log Out</a>
                 </div>
-              </div>
-            </li>
+               </div>              
+           </li>
 
-            <li class="nav-item">
-           <?php
+           <li class="nav-item">
+           <?php     
                 $uname = $_SESSION['uname'];
-                $sql="select * from user";
-                $result = mysqli_query($connect, $sql);
-
-                while($row=mysqli_fetch_array($result)){
                 echo "<a href='#' class='nav-link'>Welcome, $uname </a>";
-                break;
-              } 
           ?>
             </li>
-
 
           </ul>
         </div>
       </div>
-    </nav>
+  </nav>
 
     <!-- cart -->
     <div class="container py-5">
-        <div class="text-start">
-            <h3><?php echo $_SESSION['uname'];?>'s cart</h3>
-            <hr>
+        <div class="text-start my-5">
+            <h2>Your cart</h2>
         </div>
 
         <table class="cart table table-hover text-center" width="100%">
@@ -140,34 +135,63 @@
               <th width="15%" class="text-center">Product Name</th>
               <th width="15%" class="text-center">Image</th>
               <th class="text-center">Quantity</th>
-              <th class="text-center">Price</th>
-              <th class="text-center">Edit</th>
-              <th class="text-center">Delete</th>
+              <th class="text-center">Item Price</th>
+              <th class="text-center">Subtotal</th>
+              <th class="text-center"></th>
             </tr>
             
-          <tr>
-            <td class="py-5">test</td>
+          <tr> 
+            <?php 
+                $sql = "SELECT * FROM product INNER JOIN order_items 
+                ON product.Product_ID = order_items.Product_ID  && User_ID = '$uname'";
+
+                $total = 0;
+                
+                $result = mysqli_query($connect, $sql);
+                 while($row = mysqli_fetch_array($result)){
+                  $id = $row['Order_Items_ID'];
+                  $name = $row['Name'];    
+                  $qty = $row['Quantity'];
+                  $img = $row['Image'];
+                  //price per item
+                  $price = $row['Total_Price'];
+                  //total price by quantity
+                  $subtotal = $qty * $row['Total_Price'];
+                  //cart total price
+                  $total += $qty * $row['Total_Price'];
+            ?>
+
+            <td class="py-5"><?php echo $name ?></td>
             <td class="text-center"> 
-                <img src="assets/imgs/adidas_superstar.avif" />
+                <img src="assets/imgs/<?php echo $img ?>" />
             </td>
-            <td class="py-5">test</td>
-            <td class="py-5">test</td>
-            <td class="py-5">Edit</td>
-            <td class="text-center py-5">Delete</td>
+            <td class="py-5"><?php echo $qty ?></td>
+            <td class="py-5">$ <?php echo $price ?></td>
+            <td class="py-5">$ <?php echo $subtotal ?></td>
+
+            <td class="py-5 text-center">
+              
+              <?php
+                if(isset($_GET["deleteid"])) {
+                    $id = $_GET["deleteid"];
+
+                    $sql = "DELETE FROM order_items WHERE Order_Items_ID = $id";
+                    mysqli_query($connect,$sql);
+                    echo"<script> window.location.href='cart.php'</script>";
+                }
+              ?>
+
+              <a href="cart.php?deleteid=<?php echo $id ?>" class="delete-btn">Remove</a>
+            </td>
           </tr>
+          <?php } ?>
 
        </table>
 
+
         <!-- Total price -->
         <div class="total-price text-end py-3">
-            <?php if (isset($_SESSION['cart'])) {
-                $totalCartPrice = 0;
-                foreach ($_SESSION['cart'] as $item) {
-                    $itemTotal = $item['Price'] * $item['Quantity'];
-                    $totalCartPrice += $itemTotal;
-                }
-                echo "<p>Total Price: ₱" . $totalCartPrice . "</p>";
-            } ?>
+          <p>Total Price: <span style="color:burlywood"><?php echo "$$total"?></span></p>
         </div>
 
         <!-- Checkout button styled similar to logout button -->
@@ -180,7 +204,6 @@
 
     </div>
 
-
       <!-- Footer -->
       <section class="footer_bottom">
         <div class="footer_bottom text-center py-4">
@@ -189,5 +212,10 @@
       </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function logout(){
+          return confirm('Are you sure you want to Log out?');
+        }
+    </script>
   </body>
 </html>

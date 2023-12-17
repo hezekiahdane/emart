@@ -1,6 +1,8 @@
 <?php
     include("server/connection.php");
     session_start(); 
+    $uname = $_SESSION['uname'];
+
 ?>    
 
 
@@ -59,7 +61,6 @@
         <div class="header_logo">
           <a href="main.php"><span>e</span>mart.</a>
         </div>
-        <!-- <img src="assets/imgs/logo.jpeg" /> -->
         <button
           class="navbar-toggler"
           type="button"
@@ -94,32 +95,28 @@
             </li>
 
             <li class="nav-item">
-            <i onclick="window.location.href='cart.php'" class="fa-solid fa-cart-shopping"><sup>0</sup></i>
+               <?php include("server/cart_items.php"); ?>
+              <i onclick="window.location.href='cart.php'" class="fa-solid fa-cart-shopping"><sup><?php echo $total_rows ?></sup></i>
             </li>
+
+
 
             <li class="nav-item">
-                <div class="dropdown">
-                  <i onclick="window.location.href='account.php'" class="fa-solid fa-user dropdown"></i>                    
-                    <div class="dropdown-content">
-                    <a href="profile.php">Edit Profile</a>
-                    <a href="server/logout.php">Log Out</a>
-                    </div>
+            <div class="dropdown">
+              <i onclick="window.location.href='account.php'" class="fa-solid fa-user"></i>
+                <div class="dropdown-content">
+                <a href="account.php">View Profile</a>
+                <a onclick=" if (logout() == true){ window.location.href='server/logout.php'; }">Log Out</a>
                 </div>
+               </div>              
            </li>
 
-           
            <li class="nav-item">
            <?php     
-                $uname = $_SESSION['uname'];
-                $sql="select * from user";
-                $result = mysqli_query($connect, $sql);
-
-                while($row=mysqli_fetch_array($result)){
                 echo "<a href='#' class='nav-link'>Welcome, $uname </a>";
-                break;
-              } 
           ?>
             </li>
+
           </ul>
         </div>
       </div>
@@ -279,6 +276,12 @@
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function logout(){
+      return confirm('Are you sure you want to Log out?');
+    }
+</script>
+
 
 </body>
 

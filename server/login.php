@@ -51,7 +51,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
       <div class="container">
         <div class="header_logo">
-          <a href="index.php"><span>e</span>mart.</a>
+          <a href="../index.php"><span>e</span>mart.</a>
         </div>
         <!-- <img src="assets/imgs/logo.jpeg" /> -->
         <button
@@ -76,7 +76,7 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="../shop.php">Shop</a>
+              <a class="nav-link" href="login.php">Shop</a>
             </li>
 
             <li class="nav-item">
@@ -84,11 +84,11 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="../contact.php">Contact</a>
+              <a class="nav-link" href="#">Contact</a>
             </li>
 
             <li class="nav-item">
-            <i onclick="window.location.href='cart.php'" class="fa-solid fa-cart-shopping"><sup>0</sup></i>
+            <i onclick="window.location.href='#'" class="fa-solid fa-cart-shopping"><sup>0</sup></i>
             </li>
 
             <li class="nav-item">
@@ -96,7 +96,7 @@
                 <i onclick="window.location.href='login.php'" class="fa-solid fa-user dropdown"></i>
                 <div class="dropdown-content">
                   <a href="login.php">login</a>
-                  <a href="../register.php">Create Account</a>
+                  <a href="register.php">Create Account</a>
                 </div>
               </div>
             </li>
