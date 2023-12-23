@@ -1,5 +1,5 @@
 <?php
-     include("server/connection.php");   
+    include("server/connection.php");   
     session_start();
     $uname = $_SESSION['uname'];
 
@@ -162,6 +162,7 @@
     </section>
 
     <!-- Banner -->
+
     <section id="banner" class="my-5 py-5">
       <div class="container">
         <h4>MID SEASON SALE</h4>
@@ -172,6 +173,8 @@
         <a href="main_shop.php"></a><button class="text-uppercase">Shop now</button></a>
       </div>
     </section>
+
+    
 
     <!-- Clothes -->
   <section id="clothes" class="my-5">
@@ -253,13 +256,6 @@
       </div>
     </section>    
     
-    <!-- Footer -->
-    <section class="footer_bottom">
-      <div class="footer_bottom text-center py-4">
-        <p class="mb-0">Copyright &copy; 2023 emart. All rights reserved.</p>
-      </div>
-    </section>
-
     
     <!-- Footer -->
     <section class="footer_bottom">

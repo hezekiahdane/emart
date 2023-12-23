@@ -12,6 +12,7 @@
       $price = $_POST['price'];
       $stocks = $_POST['stocks'];
       $sku = $_POST['sku'];
+      
 
       //accessing the image
       $img = $_FILES['img']['name'];
@@ -82,9 +83,8 @@
 
             <li class="nav-item">
                 <div class="dropdown">
-                  <i onclick="window.location.href='account.php'" class="fa-solid fa-user dropdown"></i>                    
+                <i class="fa-solid fa-user dropdown"></i>                    
                     <div class="dropdown-content">
-                    <a href="account.php">Edit Profile</a>
                     <a href="../server/logout.php">Log Out</a>
                     </div>
                 </div>

@@ -114,7 +114,6 @@
 
            <li class="nav-item">
            <?php     
-                $uname = $_SESSION['uname'];
                 echo "<a href='#' class='nav-link'>Welcome, $uname </a>";
           ?>
             </li>
@@ -125,7 +124,7 @@
   </nav>
 
     <!-- cart -->
-    <div class="container py-5">
+    <div class="container my-5">
         <div class="text-start my-5">
             <h2>Your cart</h2>
         </div>
@@ -153,6 +152,7 @@
                   $name = $row['Name'];    
                   $qty = $row['Quantity'];
                   $img = $row['Image'];
+                  
                   //price per item
                   $price = $row['Total_Price'];
                   //total price by quantity

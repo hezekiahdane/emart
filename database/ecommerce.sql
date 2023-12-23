@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2023 at 03:41 PM
+-- Generation Time: Dec 18, 2023 at 08:56 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -28,12 +28,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `address` (
-  `Address_ID` varchar(50) NOT NULL,
+  `Address_ID` int(50) NOT NULL,
   `Address_Line_1` varchar(100) NOT NULL,
   `Address_Line_2` varchar(100) NOT NULL,
-  `City` varchar(20) NOT NULL,
-  `State` varchar(20) NOT NULL,
-  `Postal_Code` varchar(10) NOT NULL
+  `City` varchar(50) NOT NULL,
+  `State` varchar(50) NOT NULL,
+  `Postal_Code` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -41,7 +41,10 @@ CREATE TABLE `address` (
 --
 
 INSERT INTO `address` (`Address_ID`, `Address_Line_1`, `Address_Line_2`, `City`, `State`, `Postal_Code`) VALUES
-('6T4uDteQ8h', '1', '1', 'Lap-Lapu City', 'Cebu', '6015');
+(24, 'Portville Mactan', 'Buaya', 'Lapu-Lapu City', 'Cebu', 6015),
+(25, 'test', 'test', 'test', 'test', 1),
+(26, 'new address', 'new address', 'cebu city', 'cebu', 123),
+(27, 'address2', 'address2', 'address2', 'address2', 2);
 
 -- --------------------------------------------------------
 
@@ -67,17 +70,27 @@ INSERT INTO `category` (`Category_ID`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order`
+-- Table structure for table `orders`
 --
 
-CREATE TABLE `order` (
+CREATE TABLE `orders` (
   `Order_ID` int(50) NOT NULL,
   `User_ID` varchar(50) NOT NULL,
   `Payment_ID` int(50) NOT NULL DEFAULT 0,
-  `User_Address` int(50) NOT NULL,
+  `Address_ID` int(50) NOT NULL,
   `Order_Date` date NOT NULL,
-  `Status` varchar(50) NOT NULL
+  `Status` varchar(50) NOT NULL DEFAULT 'Unpaid'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`Order_ID`, `User_ID`, `Payment_ID`, `Address_ID`, `Order_Date`, `Status`) VALUES
+(59, 'menosohd', 12, 27, '2023-12-18', 'Unpaid'),
+(61, 'menosohd', 10, 27, '2023-12-18', 'Unpaid'),
+(62, 'menosohd', 20, 27, '2023-12-18', 'Paid'),
+(63, 'menosohd', 21, 27, '2023-12-18', 'Paid');
 
 -- --------------------------------------------------------
 
@@ -93,6 +106,16 @@ CREATE TABLE `order_items` (
   `Quantity` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`Order_Items_ID`, `User_ID`, `Product_ID`, `Total_Price`, `Quantity`) VALUES
+(52, 'new', 15, 120, 1),
+(53, 'new', 11, 110, 1),
+(62, 'menosohd', 3, 50, 1),
+(63, 'menosohd', 3, 50, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -102,8 +125,8 @@ CREATE TABLE `order_items` (
 CREATE TABLE `payment` (
   `Payment_ID` int(50) NOT NULL,
   `User_ID` varchar(50) NOT NULL,
-  `Account_Number` int(12) NOT NULL,
-  `Account_Name` varchar(50) NOT NULL
+  `Account_Number` int(12) DEFAULT 0,
+  `Account_Name` varchar(50) DEFAULT ' '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -111,7 +134,18 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`Payment_ID`, `User_ID`, `Account_Number`, `Account_Name`) VALUES
-(12, 'test', 1234, 'test');
+(9, 'menosohd', 0, ' '),
+(10, 'menosohd', 0, ' '),
+(11, 'menosohd', 0, ' '),
+(12, 'menosohd', 0, ' '),
+(13, 'menosohd', 0, ' '),
+(14, 'menosohd', 1234, 'test'),
+(15, 'menosohd', 1234, 'test'),
+(16, 'menosohd', 1234, 'test'),
+(18, 'menosohd', 1234, 'test'),
+(19, 'menosohd', 13246, 'test'),
+(20, 'menosohd', 13246, 'test'),
+(21, 'menosohd', 1234, 'test');
 
 -- --------------------------------------------------------
 
@@ -199,6 +233,7 @@ CREATE TABLE `user` (
   `Last_Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Phone_Number` bigint(12) NOT NULL,
+  `Image` varchar(100) NOT NULL,
   `usertype` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -206,10 +241,11 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`User_ID`, `password`, `First_Name`, `Middle_Name`, `Last_Name`, `Email`, `Phone_Number`, `usertype`) VALUES
-('account', 'account', 'account', 'account', 'account', 'account@hotmail.com', 1234, 0),
-('admin', 'admin', 'admin', 'a', 'admin', 'admin@hotmail.com', 123, 1),
-('test', 'test', 'Zeke', 'Dane', 'Meñoso', 'menosohezekiahdane@gmail.com', 9126480555, 0);
+INSERT INTO `user` (`User_ID`, `password`, `First_Name`, `Middle_Name`, `Last_Name`, `Email`, `Phone_Number`, `Image`, `usertype`) VALUES
+('account', 'account', 'account', 'account', 'account', 'account@hotmail.com', 1234, 'Untitled design.png', 0),
+('admin', 'admin', 'admin', 'a', 'admin', 'admin@hotmail.com', 123, '', 1),
+('menosohd', '123', 'Hezekiah Dane', 'Dondon', 'Meñoso', 'menosohezekiahdane@gmail.com', 9126480555, 'Pic.png', 0),
+('new', 'new', 'new', 'new', 'new', 'new@hotmail.com', 123, '', 0);
 
 -- --------------------------------------------------------
 
@@ -218,7 +254,6 @@ INSERT INTO `user` (`User_ID`, `password`, `First_Name`, `Middle_Name`, `Last_Na
 --
 
 CREATE TABLE `user_address` (
-  `User_Address` int(50) NOT NULL,
   `User_ID` varchar(50) NOT NULL,
   `Address_ID` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -227,9 +262,11 @@ CREATE TABLE `user_address` (
 -- Dumping data for table `user_address`
 --
 
-INSERT INTO `user_address` (`User_Address`, `User_ID`, `Address_ID`) VALUES
-(1, '', 0),
-(2, '', 0);
+INSERT INTO `user_address` (`User_ID`, `Address_ID`) VALUES
+('menosohd', 24),
+('new', 25),
+('new', 26),
+('menosohd', 27);
 
 -- --------------------------------------------------------
 
@@ -267,13 +304,13 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`Category_ID`);
 
 --
--- Indexes for table `order`
+-- Indexes for table `orders`
 --
-ALTER TABLE `order`
+ALTER TABLE `orders`
   ADD PRIMARY KEY (`Order_ID`),
-  ADD KEY `fk_order_product_id` (`Payment_ID`),
   ADD KEY `fk_user_id` (`User_ID`),
-  ADD KEY `fk_user_address` (`User_Address`);
+  ADD KEY `fk_u_add` (`Address_ID`),
+  ADD KEY `fk_order_product_id` (`Payment_ID`);
 
 --
 -- Indexes for table `order_items`
@@ -322,9 +359,8 @@ ALTER TABLE `user`
 -- Indexes for table `user_address`
 --
 ALTER TABLE `user_address`
-  ADD PRIMARY KEY (`User_Address`),
-  ADD KEY `fk_user` (`User_ID`),
-  ADD KEY `fk_address` (`Address_ID`);
+  ADD KEY `fk_user_addre` (`Address_ID`),
+  ADD KEY `fk_uid` (`User_ID`);
 
 --
 -- Indexes for table `variation_option`
@@ -338,22 +374,34 @@ ALTER TABLE `variation_option`
 --
 
 --
+-- AUTO_INCREMENT for table `address`
+--
+ALTER TABLE `address`
+  MODIFY `Address_ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
   MODIFY `Category_ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `order`
+-- AUTO_INCREMENT for table `orders`
 --
-ALTER TABLE `order`
-  MODIFY `Order_ID` int(50) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `orders`
+  MODIFY `Order_ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `Order_Items_ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `Order_Items_ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `Payment_ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -368,12 +416,6 @@ ALTER TABLE `product_config`
   MODIFY `Product_Config_ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `user_address`
---
-ALTER TABLE `user_address`
-  MODIFY `User_Address` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `variation_option`
 --
 ALTER TABLE `variation_option`
@@ -384,11 +426,11 @@ ALTER TABLE `variation_option`
 --
 
 --
--- Constraints for table `order`
+-- Constraints for table `orders`
 --
-ALTER TABLE `order`
-  ADD CONSTRAINT `fk_order_product_id` FOREIGN KEY (`Payment_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_user_address` FOREIGN KEY (`User_Address`) REFERENCES `user_address` (`User_Address`) ON DELETE CASCADE ON UPDATE CASCADE,
+ALTER TABLE `orders`
+  ADD CONSTRAINT `fk_order_product_id` FOREIGN KEY (`Payment_ID`) REFERENCES `payment` (`Payment_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_u_add` FOREIGN KEY (`Address_ID`) REFERENCES `user_address` (`Address_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`User_ID`) REFERENCES `user` (`User_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -422,6 +464,13 @@ ALTER TABLE `product_config`
 --
 ALTER TABLE `product_variation`
   ADD CONSTRAINT `fk_category1` FOREIGN KEY (`Category_ID`) REFERENCES `category` (`Category_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `user_address`
+--
+ALTER TABLE `user_address`
+  ADD CONSTRAINT `fk_uid` FOREIGN KEY (`User_ID`) REFERENCES `user` (`User_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user_addre` FOREIGN KEY (`Address_ID`) REFERENCES `address` (`Address_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `variation_option`

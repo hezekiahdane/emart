@@ -130,6 +130,7 @@
       <hr>
     </div>
     <div class="row mx-auto container mt-5">
+      
       <!-- Product 1 -->
       <?php
         //set the start value
@@ -138,10 +139,13 @@
           $rows_per_page = 4;
 
         //query for getting the number of rows
-          $result = $connect->query("SELECT * FROM product"); 
-          $nr_of_rows = $result->num_rows;
+        $sql = "SELECT * FROM product";
+        $result = mysqli_query($connect, $sql);
 
-        //calculate the number of pages
+        //This will get the number of rows in the product table and store it in a variable
+        $nr_of_rows = $result->num_rows;
+
+        //calculate the number of pages, ciel round fractions up
           $pages = ceil($nr_of_rows / $rows_per_page);
 
         //Setting a new starting point when user clicks on pageination buttons
@@ -182,7 +186,6 @@
       <?php } ?>
 
       <!-- pagination -->
-
       <nav aria-label="Page navigation">
         <div class="text-center my-3 py-3">
           <ul class="pagination justify-content-center">

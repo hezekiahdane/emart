@@ -51,9 +51,8 @@
 
             <li class="nav-item">
                 <div class="dropdown">
-                  <i onclick="window.location.href='account.php'" class="fa-solid fa-user dropdown"></i>                    
+                <i class="fa-solid fa-user dropdown"></i>                    
                     <div class="dropdown-content">
-                    <a href="account.php">Edit Profile</a>
                     <a href="../server/logout.php">Log Out</a>
                     </div>
                 </div>
@@ -130,7 +129,7 @@
           }
 
         //query for displaying the products to the table    
-          $sql = "SELECT * FROM product LIMIT $start, $rows_per_page";
+          $sql = "SELECT * FROM product ORDER BY Category_ID LIMIT $start, $rows_per_page";
           $result = mysqli_query($connect, $sql);
           
           while($row = mysqli_fetch_array($result)){

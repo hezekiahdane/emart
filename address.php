@@ -11,11 +11,28 @@ if (isset($_POST['btnAdd'])) {
   $state = $_POST['state'];
   $pcode = $_POST['pcode'];
 
+  //Inserting into address table first
   $sql = "INSERT INTO address (Address_Line_1, Address_Line_2, City, State, Postal_Code)
-  VALUES ('$add1', '$add2', '$city', '$state', '$postalCode')";
+  VALUES ('$add1', '$add2', '$city', '$state', '$pcode')";
+  //execute the query
+  $result = mysqli_query($connect, $sql);
 
-  mysqli_query($connect, $sql);
-  echo "<script language ='javascript'> alert('New address added.'); window.location.href='account.php' </script>";
+  if ($result === TRUE) {
+
+    // Retrieve the Address_ID of the newly inserted address_id
+    // 'insert_id' is an sql function that returns the a newly inserted data/data type that is set to auto increment in the sql table
+    $addressID = $connect->insert_id;
+
+    // Insert into 'user_address' table
+    $sql = "INSERT INTO user_address (User_ID, Address_ID) VALUES ('$uname', $addressID)";
+    $result = mysqli_query($connect, $sql);
+
+    if ($result === TRUE) {
+      echo "<script> alert('New address added successfully.'); window.location.href='account.php' </script>";
+    } else {
+        echo "Error updating user_address table: " . $connect->error;
+    }
+  }
 }
 ?>
 

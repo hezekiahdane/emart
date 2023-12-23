@@ -69,7 +69,7 @@
 
             <li class="nav-item">
             <div class="dropdown">
-              <i onclick="window.location.href='server/login.php'" class="fa-solid fa-user"></i>
+              <i onclick="window.location.href='account.php'" class="fa-solid fa-user"></i>
                 <div class="dropdown-content">
                 <a href="account.php">View Profile</a>
                 <a onclick=" if (logout() == true){ window.location.href='server/logout.php'; }">Log Out</a>
@@ -112,23 +112,6 @@
 
         <img class='img-fluid w-100 pb-1' id='mainImg' src='assets/imgs/<?php echo $img ?>'>
 
-          <!-- <div class="small-img-group">
-            <div class="small-img-col">
-              <img src="assets/imgs/nike.jpeg" class="small-img w-100" />
-            </div>
-
-            <div class="small-img-col">
-              <img src="assets/imgs/adidas.avif" class="small-img w-100" />
-            </div>
-
-            <div class="small-img-col">
-              <img src="assets/imgs/nike.jpeg" class="small-img w-100" />
-            </div>
-
-            <div class="small-img-col">
-              <img src="assets/imgs/adidas.avif" class="small-img w-100" />
-            </div>
-          </div> -->
 
         </div>
 

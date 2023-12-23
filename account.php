@@ -18,20 +18,6 @@
 
 ?>
 
-<?php 
-    //Displaying the User Address
-    $sql = "SELECT * FROM user_address ua JOIN address a ON ua.Address_ID = a.Address_ID 
-    JOIN product p ON ua.User_Address_ID = p.Product_ID WHERE User_ID = '$uname'";
-    $result = mysqli_query($connect, $sql);
-    while ($row = mysqli_fetch_assoc($result)) {
-      $add1 = $row['Address_Line_1'];
-      $add2 = $row['Address_Line_2'];
-      $city = $row['City'];
-      $state = $row['State'];
-      $pcode = $row['Postal_Code'];
-  }
-?> 
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -154,7 +140,7 @@
       
       <!-- Account Details Right child -->
       <div class="col-lg-8">
-        <div class="card mb-4">
+        <div class="card">
           <div class="card-body">
           <!-- Full name -->
             <div class="row">
@@ -195,10 +181,55 @@
               <div class="col-sm-3">
                 <p class="mb-0"><b>Address</b></p>
               </div>
+
+            <?php 
+              //Displaying the User Address
+              $sql = "SELECT * FROM user_address ua JOIN address a ON ua.Address_ID = a.Address_ID WHERE User_ID = '$uname'";
+              $result = mysqli_query($connect, $sql);
+              //mysqli_num_rows returns the number of rows in a table
+              if (mysqli_num_rows($result) == 0) {
+                //This will be displayed if user has no address
+                echo "<div class='row'>
+                <div class='col-sm-3'>
+                </div>
+                
+                <div class='col-sm-9'>
+                  <p class='text-muted mb-0'>There is no address </p>
+                </div>
+              </div>";
+
+              } else {
+                //This will be displayed after user adds an address
+                while ($row = mysqli_fetch_assoc($result)) {
+                  $id1 = $row["Address_ID"];
+                  $add1 = $row['Address_Line_1'];
+                  $add2 = $row['Address_Line_2'];
+                  $city = $row['City'];
+                  $state = $row['State'];
+                  $pcode = $row['Postal_Code'];
+          ?> 
+
+            <!-- Display address content -->
               
-              <div class="col-sm-9">
-                <p class="text-muted mb-0"><?php echo $add1 . " " . $add2 . " " . $city . " " . $state . " " . $pcode ?></p>
+              <div class="col mb-0">
+                <p class="text-muted mb-3"><?php echo $add1 . ", " . $add2 . ", " . $city . ", " . $state . ", " . $pcode ?></p>
+                <?php
+                if(isset($_GET["deleteadd"])) {
+                    $id = $_GET["deleteadd"];
+
+                    $delete_sql = "DELETE FROM address WHERE Address_ID = $id";
+                    mysqli_query($connect, $delete_sql);
+                    echo"<script>window.location.href='account.php'</script>";
+                }
+              ?>
+              <div class="mb-3">
+                <a href="account.php?deleteadd=<?php echo $id1 ?>" class="delete-btn"> Remove</a>
               </div>
+                <?php }
+                  }
+                ?> 
+              </div>
+
             </div>
 
           </div>
@@ -212,38 +243,7 @@
 
 <!-- Orders -->
 <section>
-<?php 
-     //Displaying the orders here
-     $sql = "SELECT * FROM orders WHERE User_ID = '$uname'";
-     $result = mysqli_query($connect, $sql);
-     if ($row = mysqli_num_rows($result) == 0) {
-      //This will be displayed if there are no orders or if the order table is empty based on a specifc user
-      echo "<div class='container'>
-      <div class='text-start'>
-          <h2 class='mb-3'>Your Orders</h2>
-      </div>
-
-      <table class='cart table table-hover text-center my-5' width='100%'>
-         <tr>
-         <td class='text-center'>You have no orders. Shop now!</td>
-        </tr>
-     </table>
-</div>
-";
-     } else {
-      //This will display the orders in a table format
-      $sql = "SELECT * FROM orders WHERE User_ID = '$uname'";
-      $result = mysqli_query($connect, $sql);
-      while ($row = mysqli_fetch_assoc($result)) {
-        $order_id = $row["Order_ID"];
-        $payment_id = $row["Payment_ID"];
-        $user_address = $row["User_Address"];
-        $order_date = $row["Order_Date"];
-        $status = $row["Status"];
-
-
-      }
-      echo"<div class='container'>
+    <div class='container'>
       <div class='text-start'>
           <h2 class='mb-3'>Your Orders</h2>
       </div>
@@ -257,22 +257,33 @@
           <th class='text-center'>Total Price</th>
           <th class='text-center'>Status</th>
         </tr>
+
+        <?php 
+     //Displaying the orders here
+     $sql = "SELECT * FROM orders WHERE User_ID = '$uname'";
+     $result = mysqli_query($connect, $sql);
+     while ($row = mysqli_fetch_assoc($result)) {
+       $order_id = $row["Order_ID"];
+       $payment_id = $row["Payment_ID"];
+       $user_address = $row["Address_ID"];
+       $order_date = $row["Order_Date"];
+       $status = $row["Status"];
+      ?>
           
         <tr>
-          <td class='text-center'> $order_id </td>
-          <td > $payment_id </td>
-          <td > $user_address </td>
-          <td > $order_date </td>
-          <td > $order_id </td>
-          <td class='text-center'> $status </td>
+          <td class='text-center'><?php echo $order_id ?> </td>
+          <td ><?php echo $payment_id ?></td>
+          <td ><?php echo $user_address?> </td>
+          <td ><?php echo $order_date ?> </td>
+          <td ><?php echo $order_id ?></td>
+          <td class='text-center'><?php echo $status ?></td>
         </tr>
+
+    <?php  } ?>
 
      </table>
 </div>
-";
-     }
 
-?>
 </section>
 
 
